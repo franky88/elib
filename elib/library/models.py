@@ -1,3 +1,5 @@
+import datetime
+from django.utils import timezone
 from django.db import models
 
 # Create your models here.
@@ -19,12 +21,12 @@ class Book(models.Model):
 class BooksBorrow(models.Model):
 	user=models.ForeignKey(User)
 	book=models.ForeignKey(Book)
-	date_issued=models.DateField()
-	date_due_for_return=models.DateField()
-	date_returned=models.DateField()
+	date_issued=models.DateTimeField()
+	date_due_for_return=models.DateTimeField()
+	date_returned=models.DateTimeField(default=timezone.now()+datetime.timedelta(days=1))
 	amount_of_fine=models.IntegerField(default=0)
 	def __unicode__(self):
-		return self.date_issued
+		return self.book.book_title
 
 class Author(models.Model):
 	book=models.ManyToManyField(Book)
